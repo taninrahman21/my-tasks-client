@@ -9,7 +9,7 @@ const Navbar = () => {
   const {user} = useContext(AuthContext);
   return (
     <div>
-      <nav className='flex flex-col-reverse lg:flex-row justify-center items-center py-3 border-b'>
+      <nav className='flex flex-col-reverse lg:flex-row justify-center items-center py-3 border-b overflow-auto whitespace-nowrap'>
         <ul className="flex text-xl mt-2 lg:mt-0">
           <li className='px-5'><NavLink className='pb-2' to='/addtasks'>Add Task</NavLink></li>
           <li className='px-5'><NavLink className='pb-2' to='/mytasks'>My Tasks</NavLink></li>

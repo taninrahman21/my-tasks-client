@@ -13,7 +13,6 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_appId,
   // apiKey: "AIzaSyCPMjoOaNd08CoDqwu3sF0YiqVOaB6ZVLc"
 };
-console.log(process.env.REACT_APP_secretKey);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

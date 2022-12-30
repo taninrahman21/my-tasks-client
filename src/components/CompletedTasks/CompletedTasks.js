@@ -1,18 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { FaRegTrashAlt } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AuthContext } from '../../contexts/UserContext';
 
 const CompletedTasks = () => {
-  const [allTasks, setAllTasks] = useState([]);
+  const [completedTasks, setCompletedTasks] = useState([]);
+  const [tasksLoading, setTaskLoading] = useState(true);
   const {user} = useContext(AuthContext);
   useEffect( () => {
     fetch(`https://my-tasks-server-bice.vercel.app/mytasks?email=${user?.email}`)
     .then(res => res.json())
     .then(data => {
-      setAllTasks(data);
+      setTaskLoading(false);
+      const completedTasks = data.filter(task => task?.isCompleted === true);
+      setCompletedTasks(completedTasks);
     })
   }, [user?.email])
+
+  if(tasksLoading){
+    return <p className='text-center mt-20 text-xl'>Loading...</p>
+  }
 
   const handleDelete = id => {
     fetch(`https://my-tasks-server-bice.vercel.app/tasks/${id}`, {
@@ -21,12 +29,12 @@ const CompletedTasks = () => {
     .then(data => {
       if(data.deletedCount > 0){
         const remainingTasks = completedTasks.filter(task => task._id !== id);
-        setAllTasks(remainingTasks);
+        setCompletedTasks(remainingTasks);
         toast.success('Delete Successfully');
       }
     })
   }
-  const completedTasks = allTasks.filter(task => task?.isCompleted === true);
+  
   return (
     <div>
       <h3 className='text-center mt-8'><Link to='/mytasks'>See Not Completed Task</Link></h3>
@@ -34,9 +42,8 @@ const CompletedTasks = () => {
        {
         completedTasks.map(task => <div className='flex justify-between mb-2' key={task._id}>
           <h2 className='text-xl'>{task.title}</h2>
-          <div className='text-white'>
-          <button className='p-1 bg-green-500 mr-2'>Edit Task</button>
-          <button onClick={() => handleDelete(task._id)} className='p-1 bg-red-500 mr-2'>Delete</button>
+          <div>
+          <button onClick={() => handleDelete(task._id)} className='mr-2 text-xl'><FaRegTrashAlt/></button>
           </div>
         </div>)
        }

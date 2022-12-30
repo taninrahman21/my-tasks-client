@@ -7,13 +7,14 @@ import Login from "./components/Login/Login";
 import MyTasks from "./components/MyTasks/MyTasks";
 import Signup from "./components/Signup/Signup";
 import Main from "./layout/Main";
+import PrivateRoute from "./PrivateRoute/PrivateRoute";
 
 
 function App() {
   const router = createBrowserRouter([
     {
       path: '/',
-      element: <Main></Main>,
+      element: <PrivateRoute><Main></Main></PrivateRoute>,
       children: [
         {
           path: '/',

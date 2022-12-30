@@ -1,9 +1,13 @@
 import React from 'react';
+import { useContext } from 'react';
 import { useForm } from 'react-hook-form';
+import { toast } from 'react-hot-toast';
 import { FaAlignLeft, FaFileImport, FaRegEdit } from "react-icons/fa";
+import { AuthContext } from '../../contexts/UserContext';
 
 const AddTasks = () => {
   const { register, handleSubmit } = useForm();
+  const {user} = useContext(AuthContext);
 
   const handleAddTask = data => {
     const image = data.image[0];
@@ -17,7 +21,28 @@ const AddTasks = () => {
     })
     .then(res => res.json())
     .then(imgData => {
-      console.log(imgData);
+      if(imgData.success){
+        const img = imgData.data.url;
+        const newTask = {
+          title: data.title,
+          details: data.details,
+          userEmail: user?.email,
+          image: img
+        };
+        
+        fetch('http://localhost:5000/tasks', {
+          method: 'POST',
+          headers: {
+            'content-type': 'application/json'
+          },
+          body: JSON.stringify(newTask)
+        }).then(res => res.json())
+        .then(data => {
+          if(data.acknowledged){
+            toast.success("Task Added Successfully");
+          }
+        })
+      }
     })
   }
   return (
