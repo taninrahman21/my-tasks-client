@@ -38,7 +38,7 @@ const MyTasks = () => {
   }
 
   const handleComplete = id => {
-    fetch(`http://localhost:5000/tasks/${id}`, {
+    fetch(`https://my-tasks-server-bice.vercel.app/tasks/${id}`, {
       method: 'PATCH',
       headers: {
         'content-type': 'application/json'

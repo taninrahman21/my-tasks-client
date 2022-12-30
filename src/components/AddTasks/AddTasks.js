@@ -30,7 +30,7 @@ const AddTasks = () => {
           image: img
         };
         
-        fetch('http://localhost:5000/tasks', {
+        fetch('https://my-tasks-server-bice.vercel.app/tasks', {
           method: 'POST',
           headers: {
             'content-type': 'application/json'
